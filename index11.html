@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaf Disease Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .container {
+            
+            max-width: 600px;
+            margin: 90px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .btn-custom {
+            width: 100%;
+            margin-top: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        #uploadedImage {
+            display: none;
+            max-width: 100%;
+            margin-top: 20px;
+        }
+        #error-message {
+            color: red;
+            display: none;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Leaf Disease Prediction</h1>
+        <form id="uploadForm" action="/" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file" class="form-label">Upload a leaf image:</label>
+                <input type="file" name="file" id="file" class="form-control" required onchange="previewImage(event)">
+            </div>
+            <button type="submit" class="btn btn-primary btn-custom">Predict</button>
+            
+        </form>
+        <button id="showImageBtn" class="btn btn-secondary btn-custom" onclick="showImage()">Show Image</button>
+        <img id="uploadedImage" src="#" alt="Uploaded Image">
+        <p id="error-message">Image not selected!</p>
+        
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function(){
+                const output = document.getElementById('uploadedImage');
+                output.src = reader.result;
+
+                // Change the button color to blue
+                const showImageBtn = document.getElementById('showImageBtn');
+                showImageBtn.classList.remove('btn-secondary');
+                showImageBtn.classList.add('btn-primary');
+
+                // Hide the error message if the image is selected
+                const errorMessage = document.getElementById('error-message');
+                errorMessage.style.display = 'none';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function showImage() {
+            const imgElement = document.getElementById('uploadedImage');
+            const fileInput = document.getElementById('file');
+            const errorMessage = document.getElementById('error-message');
+
+            if (fileInput.files.length === 0) {
+                // If no image is selected, display an error message
+                errorMessage.style.display = 'block';
+            } else {
+                // If an image is selected, display the image and hide the error message
+                imgElement.style.display = 'block';
+                errorMessage.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
